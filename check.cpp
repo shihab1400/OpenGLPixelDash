@@ -2,7 +2,7 @@
 #include <GL/glut.h>
 #include <math.h>
 #include "collisionDetection.cpp"
-#include "shapes.cpp"
+#include "EShoot.cpp"
 
 Rect r1 = { 100,100,100,100 };
 Rect r2 = { -200,-200,100,100 };
@@ -14,7 +14,7 @@ void display() {
    glMatrixMode(GL_MODELVIEW);
    glLoadIdentity();
 
-   Coordinates(0, 0, 300, 300, 5, 5, 2, 2);
+   // Coordinates(0, 0, 300, 300, 5, 5, 2, 2);
 
    if (collision(r1, r2)) {
       r = 1.0;
@@ -30,7 +30,12 @@ void display() {
    Rectangle0(r1.x, r1.y, r1.width, r1.height, 1, 1, 1);
    Rectangle0(r2.x, r2.y, r2.width, r2.height, r, g, b);
 
+   
+   
+   EnemyShooter(100,100);
+   
 
+   glutPostRedisplay();
 
    glutSwapBuffers();
 
@@ -68,12 +73,17 @@ void reshape(int w, int h) {
 
 int main(int argc, char** argv)
 {
-    glutInit(&argc, argv);
-    glutInitWindowSize(600,600);
-    glutCreateWindow("Open GL");
-    glutDisplayFunc(display);
-    glutReshapeFunc(reshape);
-    glutKeyboardFunc(keyboardInput);
-    glutMainLoop();
-    return 0;
+   glutInit(&argc, argv);
+   glutInitWindowSize(600,600);
+   glutCreateWindow("Open GL");
+   glutDisplayFunc(display);
+   glutReshapeFunc(reshape);
+   glutKeyboardFunc(keyboardInput);
+
+   //Bullet Animation
+   glutTimerFunc(16, updateBullet, 0);
+   glutTimerFunc(1000, createBullet, 0);
+
+   glutMainLoop();
+   return 0;
 }
